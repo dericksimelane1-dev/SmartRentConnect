@@ -1,10 +1,24 @@
+// src/server.js
 const express = require("express");
 const cors = require("cors");
+
 const app = express();
 
-app.use(cors());
+// Middleware
 app.use(express.json());
+app.use(cors());
 
-app.get("/", (req, res) => res.send("SmartRent Backend Running"));
+// Routes (ONLY ones that actually exist)
+const authRoutes = require("./routes/auth"); // or authRoutes.js — pick ONE
+app.use("/api/auth", authRoutes);
 
-app.listen(3001, () => console.log("Server running on port 3001"));
+// Health check
+app.get("/", (req, res) => {
+  res.send("SmartRent API running...");
+});
+
+// Start server (ONLY ONCE)
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});

@@ -1,11 +1,18 @@
+const path = require("path");
+require("dotenv").config({
+  path: path.resolve(__dirname, "../../.env"),
+});
+
 const { Pool } = require("pg");
 
+console.log("DB_PASSWORD type:", typeof process.env.DB_PASSWORD);
+
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "smartRentConnect",
-  password: "",
-  port: 5432,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT),
 });
 
 module.exports = pool;
