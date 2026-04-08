@@ -1,9 +1,6 @@
-const express = require("express");
-const router = express.Router();
+const auth = require("../middleware/authMiddleware");
+const requireVerified = require("../middleware/requireVerified");
 
-// Test route
-router.get("/", (req, res) => {
-  res.json({ message: "Listing routes are working" });
+router.post("/apply", auth, requireVerified, async (req, res) => {
+  // ✅ only verified tenants reach here
 });
-
-module.exports = router;

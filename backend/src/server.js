@@ -1,24 +1,27 @@
-// src/server.js
+// backend/src/server.js
+
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
-// Middleware
+// ✅ ENABLE CORS (THIS FIXES YOUR ERROR)
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
+
+// ✅ REQUIRED FOR req.body
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes (ONLY ones that actually exist)
-const authRoutes = require("./routes/auth"); // or authRoutes.js — pick ONE
-app.use("/api/auth", authRoutes);
+// ✅ ROUTES
+app.use("/api/auth", require("./routes/auth"));
 
-// Health check
-app.get("/", (req, res) => {
-  res.send("SmartRent API running...");
-});
-
-// Start server (ONLY ONCE)
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+// ✅ SERVER
+app.listen(5000, () => {
+  console.log("✅ Server running on port 5000");
 });
