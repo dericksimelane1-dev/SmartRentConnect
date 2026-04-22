@@ -1,7 +1,7 @@
 module.exports = (req, res, next) => {
-  if (req.user.verification_status !== "verified") {
+  if (!req.user.isVerified) {
     return res.status(403).json({
-      message: "Account not verified",
+      message: "Verify your account to continue"
     });
   }
   next();
