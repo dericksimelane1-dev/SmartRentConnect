@@ -1,4 +1,4 @@
-const pool = require("../controllers/db");
+const pool = require("../configs/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 

@@ -1,5 +1,5 @@
 // src/controllers/dashboardController.js
-const pool = require("../controllers/db");
+const pool = require("../configs/db");
 
 exports.getTenantDashboard = async (req, res) => {
   const userId = req.user.id;

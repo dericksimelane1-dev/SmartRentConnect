@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const db = require("../controllers/db");
+const pool = require("../configs/db");
 
 module.exports = async (req, res, next) => {
   try {
@@ -12,20 +12,20 @@ module.exports = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const result = await db.query(
+    const result = await pool.query(
       "SELECT user_id, role, verification_status FROM users WHERE user_id = $1",
-      [decoded.id]
+      [decoded.user_id]
     );
 
     if (result.rows.length === 0) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    req.user = result.rows[0]; // ✅ now available everywhere
+    req.user = result.rows[0]; // ✅ available to routes
     next();
 
   } catch (error) {
     console.error("AUTH MIDDLEWARE ERROR:", error);
-    res.status(401).json({ message: "Invalid or expired token" });
+    return res.status(401).json({ message: "Invalid or expired token" });
   }
 };

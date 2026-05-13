@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const adminRoutes = require("./routes/adminRoutes");
 const path = require("path");
+const listingRoutes = require("./routes/listingRoutes");
 
 const app = express();
 
@@ -24,6 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", require("./routes/auth"));
 app.use('/api/tenant/verification', require('./routes/tenantVerificationRoutes'));
 app.use("/api/admin", adminRoutes);
+app.use("/api/listings", listingRoutes);
+app.use("/uploads", express.static("backend/uploads"));
+
 
 
 // Serve uploaded documents
